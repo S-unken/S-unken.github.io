@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Boring Office Job - 90s Edition</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Courier+Prime&display=swap">
+  <style>
+    body {
+      margin: 0;
+      background-color: #008080;
+      font-family: "Courier Prime", monospace;
+      color: #000000;
+      user-select: none;
+    }
+
+    .centerbox {
+      width: 400px;
+      background-color: #C0C0C0;
+      border: 4px solid #000080;
+      box-shadow: 4px 4px 0 #000000;
+      padding: 20px;
+      margin: 120px auto;
+      text-align: center;
+      font-family: "Courier Prime", monospace;
+    }
+
+    input {
+      font-family: inherit;
+      padding: 6px;
+      width: 80%;
+      margin-top: 10px;
+      border: 2px solid #808080;
+    }
+
+    button {
+      margin-top: 8px;
+      padding: 4px 10px;
+      font-family: inherit;
+      border: 2px solid #808080;
+      background-color: #C0C0C0;
+      cursor: pointer;
+    }
+
+    button:active {
+      border-style: inset;
+    }
+
+    .desktop {
+      width: 100vw;
+      height: 100vh;
+      position: relative;
+      display: none;
+      background-color: #008080;
+      color: #000000;
+      overflow: hidden;
+    }
+
+    .desktop-icons {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      color: #FFFFFF;
+      font-size: 13px;
+    }
+
+    .icon {
+      width: 64px;
+      text-align: center;
+      cursor: pointer;
+    }
+
+    .icon img {
+      width: 32px;
+      height: 32px;
+      display: block;
+      margin: 0 auto 4px;
+      background-color: #C0C0C0;
+      border: 1px solid #000000;
+    }
+
+    .window {
+      position: absolute;
+      width: 500px;
+      height: 320px;
+      background-color: #C0C0C0;
+      border: 3px solid #000080;
+      box-shadow: 4px 4px 0 #000000;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .title-bar {
+      background: linear-gradient(to right, #000080, #0000CD);
+      color: white;
+      padding: 3px 6px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 13px;
+      cursor: move;
+    }
+
+    .title-buttons span {
+      display: inline-block;
+      width: 16px;
+      height: 16px;
+      margin-left: 4px;
+      background-color: #C0C0C0;
+      border: 1px solid #000000;
+      text-align: center;
+      line-height: 14px;
+      color: #000000;
+      font-size: 12px;
+      cursor: pointer;
+    }
+
+    .menu-bar {
+      background-color: #DCDCDC;
+      padding: 3px 6px;
+      font-size: 12px;
+      border-bottom: 1px solid #808080;
+    }
+
+    .menu-bar span {
+      margin-right: 16px;
+      cursor: default;
+    }
+
+    .content {
+      flex: 1;
+      background-color: #FFFFFF;
+      padding: 6px;
+      font-size: 13px;
+      overflow: auto;
+    }
+
+    .status-bar {
+      background-color: #DCDCDC;
+      border-top: 1px solid #808080;
+      padding: 2px 6px;
+      font-size: 11px;
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .hidden {
+      display: none !important;
+    }
+
+    .terminal-log {
+      font-family: "Courier Prime", monospace;
+      font-size: 12px;
+      background-color: #000000;
+      color: #00FF00;
+      padding: 4px;
+      height: 100%;
+      white-space: pre-wrap;
+    }
+
+    .file-list {
+      font-family: "Courier Prime", monospace;
+      font-size: 12px;
+    }
+
+    select {
+      font-family: inherit;
+      font-size: 12px;
+      padding: 2px 4px;
+      border: 1px solid #808080;
+      background-color: #FFFFFF;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- LOGIN SCREEN -->
+  <div id="loginScreen" class="centerbox">
+    <h3>ACME CORP SECURE LOGIN</h3>
+    <div id="loginMessage">Enter your password:</div>
+    <input type="password" id="passwordInput">
+    <button id="loginBtn">Submit</button>
+  </div>
+
+  <!-- DESKTOP -->
+  <div class="desktop" id="desktop">
+    <div class="desktop-icons">
+      <div class="icon" data-app="docs">
+        <img alt="Docs">
+        <div>MS Docs</div>
+      </div>
+      <div class="icon" data-app="excel">
+        <img alt="Excel">
+        <div>MS Xcel</div>
+      </div>
+      <div class="icon" data-app="mail">
+        <img alt="Mail">
+        <div>ACML Mail</div>
+      </div>
+      <div class="icon" data-app="explorer">
+        <img alt="Explorer">
+        <div>File Explorer</div>
+      </div>
+      <div class="icon" data-app="terminal">
+        <img alt="Terminal">
+        <div>Terminal</div>
+      </div>
+    </div>
+
+    <!-- MS DOCS -->
+    <div class="window hidden" id="win-docs" style="top:80px;left:120px;">
+      <div class="title-bar" data-app="docs">
+        <span>MS Docs - Report.doc</span>
+        <div class="title-buttons">
+          <span data-action="minimize">_</span>
+          <span data-action="close">X</span>
+        </div>
+      </div>
+      <div class="menu-bar">
+        <span id="docsFileBtn">File</span>
+        <span>Edit</span>
+        <span>Format</span>
+      </div>
+      <div class="content">
+        <p>Quarterly TPS Report</p>
+        <p>Type: Internal</p>
+        <p>Summary: Everything is fine. Probably.</p>
+        <button id="docsSaveBtn">File → Save to Disk</button>
+      </div>
+      <div class="status-bar">
+        <span id="docsStatus">Ready.</span>
+        <span>ACME Docs 95</span>
+      </div>
+    </div>
+
+    <!-- MS XCEL -->
+    <div class="window hidden" id="win-excel" style="top:110px;left:180px;">
+      <div class="title-bar" data-app="excel">
+        <span>MS Xcel - Numbers.xls</span>
+        <div class="title-buttons">
+          <span data-action="minimize">_</span>
+          <span data-action="close">X</span>
+        </div>
+      </div>
+      <div class="menu-bar">
+        <span id="excelFileBtn">File</span>
+        <span>Edit</span>
+        <span>Data</span>
+      </div>
+      <div class="content">
+        <p>Q1 | Q2 | Q3 | Q4</p>
+        <p>123 | 234 | 345 | 456</p>
+        <p>Total: 1158</p>
+        <button id="excelSaveBtn">File → Save to Disk</button>
+      </div>
+      <div class="status-bar">
+        <span id="excelStatus">Ready.</span>
+        <span>ACME Xcel 95</span>
+      </div>
+    </div>
+
+    <!-- ACML MAIL -->
+    <div class="window hidden" id="win-mail" style="top:140px;left:240px;">
+      <div class="title-bar" data-app="mail">
+        <span>ACML Mail - Inbox</span>
+        <div class="title-buttons">
+          <span data-action="minimize">_</span>
+          <span data-action="close">X</span>
+        </div>
+      </div>
+      <div class="menu-bar">
+        <span>File</span>
+        <span>Message</span>
+      </div>
+      <div class="content">
+        <p>To: Manager@acme.corp</p>
+        <p>Subject: Weekly Deliverables</p>
+        <p>Attachment:</p>
+        <select id="mailAttachmentSelect">
+          <option value="">-- Select saved file --</option>
+        </select>
+        <br><br>
+        <button id="mailSendBtn">Send to Manager</button>
+        <p id="mailStatusText" style="margin-top:8px;font-size:12px;"></p>
+      </div>
+      <div class="status-bar">
+        <span id="mailStatus">Ready.</span>
+        <span>ACML Mail 1.4</span>
+      </div>
+    </div>
+
+    <!-- FILE EXPLORER -->
+    <div class="window hidden" id="win-explorer" style="top:170px;left:300px;">
+      <div class="title-bar" data-app="explorer">
+        <span>ACME File Explorer</span>
+        <div class="title-buttons">
+          <span data-action="minimize">_</span>
+          <span data-action="close">X</span>
+        </div>
+      </div>
+      <div class="menu-bar">
+        <span>File</span>
+        <span>View</span>
+      </div>
+      <div class="content">
+        <div class="file-list" id="fileList">
+          (No files saved yet.)
+        </div>
+      </div>
+      <div class="status-bar">
+        <span id="explorerStatus">Ready.</span>
+        <span>C:\ACME\</span>
+      </div>
+    </div>
+
+    <!-- TERMINAL -->
+    <div class="window hidden" id="win-terminal" style="top:60px;left:420px;width:420px;height:260px;">
+      <div class="title-bar" data-app="terminal">
+        <span>ACME Corporate Terminal</span>
+        <div class="title-buttons">
+          <span data-action="minimize">_</span>
+          <span data-action="close">X</span>
+        </div>
+      </div>
+      <div class="menu-bar">
+        <span>Session</span>
+      </div>
+      <div class="content">
+        <div class="terminal-log" id="terminalLog">
+ACME Corp Internal Workstation v3.1 (1996)
+-----------------------------------------
+Ready.
+        </div>
+      </div>
+      <div class="status-bar">
+        <span id="terminalStatus">Connected.</span>
+        <span>ACME Mainframe</span>
+      </div>
+    </div>
+
+  </div>
+
+  <script src="job.js"></script>
+</body>
+</html>
